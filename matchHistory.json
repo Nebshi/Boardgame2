@@ -1,0 +1,13 @@
+[
+  {
+    "userId": 1,
+    "matches": [
+      {
+        "opponent": "user2",
+        "result": "win"
+      }
+
+    ]
+  }
+  
+]

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 i rad</title>
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="styles3.css">
+  <script src="app.js" type="module"></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>3 i rad</h1>
+  </header>
+
+  <main>
+    <section id="board">
+      <article class="cell" onclick="makeMove(0)"></article>
+      <article class="cell" onclick="makeMove(1)"></article>
+      <article class="cell" onclick="makeMove(2)"></article>
+      <article class="cell" onclick="makeMove(3)"></article>
+      <article class="cell" onclick="makeMove(4)"></article>
+      <article class="cell" onclick="makeMove(5)"></article>
+      <article class="cell" onclick="makeMove(6)"></article>
+      <article class="cell" onclick="makeMove(7)"></article>
+      <article class="cell" onclick="makeMove(8)"></article>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 3 i rad</p>
+  </footer>
+
+  <script>
+    let currentPlayer = 'X';
+    const cells = document.querySelectorAll('.cell');
+    let currentUser = prompt("Please enter your username");
+    let matchHistory = [];
+
+    function makeMove(index) {
+      if (cells[index].textContent === '') {
+        cells[index].textContent = currentPlayer;
+
+        if (checkWinner()) {
+          alert('Player ' + currentPlayer + ' wins!');
+          updateMatchHistory(currentPlayer);
+          resetGame();
+        } else if (isBoardFull()) {
+          alert('It\'s a tie!');
+          updateMatchHistory('Tie');
+          resetGame();
+        } else {
+          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+      }
+    }
+
+    function checkWinner() {
+      const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+      ];
+
+      return winningCombinations.some(combination => {
+        const [a, b, c] = combination;
+        return cells[a].textContent !== '' && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent;
+      });
+    }
+
+    function isBoardFull() {
+      return Array.from(cells).every(cell => cell.textContent !== '');
+    }
+
+    function resetGame() {
+      cells.forEach(cell => cell.textContent = '');
+      currentPlayer = 'X';
+    }
+
+    function updateMatchHistory(result) {
+      matchHistory.push({
+        opponent: currentPlayer === 'X' ? 'O' : 'X',
+        result: result
+      });
+      console.log(currentUser + "'s Match History:", matchHistory);
+    }
+  </script>
+
+</body>
+
+</html>
